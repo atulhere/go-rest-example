@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"go-rest-example/app"
-	"go-rest-example/models"
+	"github.com/atulhere/go-rest-example/app"
+	"github.com/atulhere/go-rest-example/models"
 
 	"github.com/gorilla/mux"
 )
@@ -23,5 +23,5 @@ func main() {
 
 	app.SetupRouter()
 
-	log.Fatal(http.ListenAndServe(":8090", app.Router))
+	log.Fatal(http.ListenAndServe(":8080", app.Router))
 }

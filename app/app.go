@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -14,14 +15,22 @@ type App struct {
 	Database *sql.DB
 }
 
+type DbData struct {
+	ID      int       `json:"id"`
+	Date    time.Time `json:"date"`
+	Name    string    `json:"name"`
+	Address string    `json:"address"`
+	Pin     string    `json:"pin"`
+}
+
 func (app *App) SetupRouter() {
 	app.Router.
 		Methods("get").
-		Path("/residents").
-		HandlerFunc(app.getAllResidents)
+		Path("/society/{id}").
+		HandlerFunc(app.getSocietyDetail)
 }
 
-func (app *App) getAllResidents(w http.ResponseWriter, r *http.Request) {
+func (app *App) getSocietyDetail(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
 	if !ok {
@@ -29,7 +38,7 @@ func (app *App) getAllResidents(w http.ResponseWriter, r *http.Request) {
 	}
 
 	dbdata := &DbData{}
-	err := app.Database.QueryRow("SELECT id, date, name FROM `test` WHERE id = ?", id).Scan(&dbdata.ID, &dbdata.Date, &dbdata.Name)
+	err := app.Database.QueryRow("SELECT id, name,address,pin,created_at FROM `society` WHERE id = ?", id).Scan(&dbdata.ID, &dbdata.Name, &dbdata.Address, &dbdata.Pin, &dbdata.Date)
 	if err != nil {
 		log.Fatal("Database SELECT failed")
 	}
