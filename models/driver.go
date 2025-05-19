@@ -7,7 +7,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func CreateDatabase() (*sql.DB, error) {
+func ConnectDatabase() (*sql.DB, error) {
 	serverName := "localhost:3306"
 	user := "root"
 	password := ""

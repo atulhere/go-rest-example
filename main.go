@@ -6,12 +6,13 @@ import (
 
 	"github.com/atulhere/go-rest-example/app"
 	"github.com/atulhere/go-rest-example/models"
-
 	"github.com/gorilla/mux"
 )
 
 func main() {
-	database, err := models.CreateDatabase()
+
+	database, err := models.ConnectDatabase()
+
 	if err != nil {
 		log.Fatal("Database connection failed: %s", err.Error())
 	}
